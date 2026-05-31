@@ -1,0 +1,159 @@
+/* ============================================
+   NOTIFICACIONES
+   ============================================ */
+.notificaciones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notificacion-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1.5px solid #E2E4EA;
+    transition: all 0.2s;
+}
+
+.notificacion-card:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.11);
+    border-color: #2D7D32;
+}
+
+.notificacion-card.no-leida {
+    border-left: 4px solid #F2C200;
+    background: #FFFDF5;
+}
+
+.notificacion-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #E8F5E9;
+    color: #2D7D32;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.no-leida .notificacion-icon {
+    background: #FFF3E0;
+    color: #E65100;
+}
+
+.notificacion-contenido {
+    flex: 1;
+}
+
+.notificacion-mensaje {
+    font-size: 14px;
+    color: #1A1D27;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.notificacion-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.notificacion-fecha {
+    font-size: 12px;
+    color: #9DA3B4;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.notificacion-enlace {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2D7D32;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.notificacion-enlace:hover {
+    text-decoration: underline;
+}
+
+.notificacion-badge .badge-pendiente {
+    background: #FFF3E0;
+    color: #E65100;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.paginacion {
+    margin-top: 24px;
+}
+
+/* ============================================
+   PAGINACIÓN SIMPLE
+   ============================================ */
+
+.paginacion {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.paginacion-enlaces {
+    display: inline-flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pag-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    background: white;
+    border: 1px solid #E2E4EA;
+    border-radius: 6px;
+    color: #4B5263;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.pag-link:hover {
+    background: #E8F5E9;
+    border-color: #2D7D32;
+    color: #2D7D32;
+}
+
+.pag-link.active {
+    background: #2D7D32;
+    border-color: #2D7D32;
+    color: white;
+}
+
+.pag-link.disabled {
+    background: #F7F8FA;
+    border-color: #E2E4EA;
+    color: #CBD0DC;
+    cursor: not-allowed;
+}
+
+.pag-link.disabled:hover {
+    background: #F7F8FA;
+    border-color: #E2E4EA;
+    color: #CBD0DC;
+}

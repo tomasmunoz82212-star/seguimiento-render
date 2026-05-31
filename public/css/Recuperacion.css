@@ -1,0 +1,147 @@
+body.recuperacion-page {
+    background: linear-gradient(135deg, #2d7d32, #1b5e20);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.recuperacion-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+    padding: 28px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+}
+
+.recuperacion-card .card-title {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.recuperacion-card .card-title i {
+    font-size: 48px;
+    color: #2D7D32;
+}
+
+.recuperacion-card .card-title h2 {
+    margin: 10px 0 5px;
+    font-size: 22px;
+    color: #1A1D27;
+}
+
+.recuperacion-card .card-title p {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+.recuperacion-card .form-group {
+    margin-bottom: 20px;
+}
+
+.recuperacion-card .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #2D7D32;
+}
+
+.recuperacion-card .form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.recuperacion-card .form-group input:focus {
+    outline: none;
+    border-color: #2D7D32;
+    box-shadow: 0 0 0 3px rgba(45,125,50,0.1);
+}
+
+.recuperacion-card .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+}
+
+.recuperacion-card .btn-primary {
+    background: #2D7D32;
+    color: white;
+}
+
+.recuperacion-card .btn-primary:hover {
+    background: #1B5E20;
+    transform: translateY(-1px);
+}
+
+.recuperacion-card .btn-link {
+    background: none;
+    border: none;
+    color: #2D7D32;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.recuperacion-card .btn-link:hover {
+    text-decoration: underline;
+}
+
+.recuperacion-card .alert-error,
+.recuperacion-card .alert-success {
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.recuperacion-card .alert-error {
+    background: #FFEBEE;
+    color: #C62828;
+    border-left: 4px solid #C62828;
+}
+
+.recuperacion-card .alert-success {
+    background: #E8F5E9;
+    color: #2D7D32;
+    border-left: 4px solid #2D7D32;
+}
+
+.recuperacion-card .field-error {
+    display: block;
+    color: #C62828;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.recuperacion-card small {
+    color: #6c757d;
+    display: block;
+    margin-top: 4px;
+}
+
+.recuperacion-card input[name="codigo"] {
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 4px;
+    font-family: monospace;
+}

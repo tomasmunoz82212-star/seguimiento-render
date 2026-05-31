@@ -1,0 +1,270 @@
+/* ════════════════════════════════════════
+   ALERTAS
+════════════════════════════════════════ */
+.alert-success {
+    background: #E8F5E9;
+    color: #2D7D32;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 4px solid #2D7D32;
+}
+.alert-error {
+    background: #FFEBEE;
+    color: #C62828;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 4px solid #C62828;
+}
+
+/* ════════════════════════════════════════
+   ALERT BANNERS
+════════════════════════════════════════ */
+.alert-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+.alert-info {
+    background: #E3F2FD;
+    color: #1565C0;
+    border-left: 3px solid #1565C0;
+}
+.alert-warn {
+    background: #FFF3E0;
+    color: #E65100;
+    border-left: 3px solid #E65100;
+}
+.alert-banner i { margin-top: 2px; flex-shrink: 0; }
+
+/* ════════════════════════════════════════
+   PERIODO CARDS
+════════════════════════════════════════ */
+.periodo-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.periodo-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+    border-left: 4px solid #CBD0DC;
+    transition: box-shadow 0.15s;
+}
+.periodo-card:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.11);
+}
+.periodo-activo {
+    border-left-color: #2D7D32;
+}
+.periodo-card-info { flex: 1; }
+.periodo-card-nombre {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1A1D27;
+    margin-bottom: 4px;
+}
+.periodo-card-fechas {
+    font-size: 12px;
+    color: #9DA3B4;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.periodo-card-stats {
+    text-align: center;
+    min-width: 90px;
+}
+.periodo-card-count {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1A1D27;
+    line-height: 1;
+}
+.periodo-card-count-label {
+    font-size: 11px;
+    color: #9DA3B4;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-weight: 600;
+    margin-top: 4px;
+}
+.periodo-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 150px;
+}
+
+.periodo-card-actions .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+.periodo-card-actions form {
+    width: 100%;
+}
+
+.periodo-card-actions form .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* ════════════════════════════════════════
+   BADGES
+════════════════════════════════════════ */
+.badge-activo {
+    background: #E8F5E9;
+    color: #2D7D32;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.badge-cerrado {
+    background: #F0F1F4;
+    color: #4B5263;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2D7D32;
+    display: inline-block;
+}
+
+/* ════════════════════════════════════════
+   UPLOAD ZONE
+════════════════════════════════════════ */
+.upload-zone {
+    border: 2px dashed #CBD0DC;
+    border-radius: 10px;
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: #4B5263;
+}
+.upload-zone:hover {
+    border-color: #2D7D32;
+    background: #F7FCF7;
+}
+.upload-zone-active {
+    border-color: #2D7D32;
+    background: #E8F5E9;
+}
+.upload-zone i {
+    font-size: 28px;
+    color: #9DA3B4;
+    margin-bottom: 4px;
+}
+.upload-zone-active i { color: #2D7D32; }
+.upload-zone strong { font-size: 14px; }
+.upload-zone small  { font-size: 12px; color: #9DA3B4; }
+
+/* ════════════════════════════════════════
+   PREVIEW BOX
+════════════════════════════════════════ */
+.preview-box {
+    background: #F7F8FA;
+    border: 1px solid #E2E4EA;
+    border-radius: 9px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #4B5263;
+    margin-bottom: 4px;
+}
+
+/* ════════════════════════════════════════
+   EMPTY STATE
+════════════════════════════════════════ */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9DA3B4;
+}
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+}
+.empty-state p {
+    font-size: 15px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* ════════════════════════════════════════
+   MISC
+════════════════════════════════════════ */
+.max-640 { max-width: 640px; }
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #2D7D32;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.btn-back:hover { text-decoration: underline; }
+.field-error {
+    display: block;
+    color: #C62828;
+    font-size: 12px;
+    margin-top: 4px;
+}
+.modal-sep {
+    border: none;
+    border-top: 1px solid #F0F1F4;
+    margin: 20px 0;
+}
+.form-row {
+    display: flex;
+    gap: 14px;
+}
+.form-row .form-group { flex: 1; }
+
+/* Centrar el formulario de nuevo periodo */
+.card.max-640 {
+    margin: 0 auto;
+    float: none;
+    display: block;
+}
