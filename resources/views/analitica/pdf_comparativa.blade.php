@@ -45,18 +45,20 @@
             page-break-before: always;
         }
         
-        /* ============================================
-           TARJETAS EN 2 COLUMNAS
-        ============================================ */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+        /* Tarjetas - 2 columnas (usando tabla) */
+        .stats-table {
+            width: 100%;
             margin-bottom: 15px;
+            border-collapse: collapse;
+        }
+        .stats-table td {
+            border: none;
+            padding: 6px;
+            vertical-align: top;
         }
         .stat-card {
             background: #f8f9fa;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             text-align: center;
             border-top: 3px solid #2D7D32;
@@ -76,41 +78,25 @@
         .stat-card-retencion { border-top-color: #6A1B9A; }
         .stat-card-nuevo { border-top-color: #F2C200; }
         
-        /* ============================================
-           RESUMEN EJECUTIVO
-        ============================================ */
-        .resumen-info {
-            background: #E3F2FD;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 10px;
-            line-height: 1.4;
-            margin-bottom: 0;
-        }
-        .resumen-info strong {
-            color: #1565C0;
-        }
-        
-        /* ============================================
-           TABLAS
-        ============================================ */
-        table {
+        /* Tablas de datos */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
             font-size: 9px;
-            table-layout: fixed;
         }
-        th, td {
+        .data-table th, .data-table td {
             border: 1px solid #dee2e6;
             padding: 5px;
             text-align: left;
             vertical-align: top;
-            word-wrap: break-word;
         }
-        th {
+        .data-table th {
             background: #f8f9fa;
             font-weight: bold;
+            text-align: center;
+        }
+        .data-table .text-center {
             text-align: center;
         }
         
@@ -178,48 +164,44 @@
             margin-right: 12px;
             white-space: nowrap;
         }
+        .resumen-info {
+            background: #E3F2FD;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 10px;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+        .resumen-info strong {
+            color: #1565C0;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ============================================ -->
-    <!-- PÁGINA 1: HEADER + TARJETAS (2 columnas) + RESUMEN -->
-    <!-- ============================================ -->
     <div class="header">
         <h1>Reporte Comparativo de Períodos</h1>
         <h3>{{ $periodoAnterior->nombre }} vs {{ $periodoActual->nombre }}</h3>
         <p>Fecha de generación: {{ $fechaGeneracion }}</p>
     </div>
 
-    <!-- Tarjetas en 2 columnas -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-number">{{ $totalAnterior }}</div>
-            <div class="stat-label">Estudiantes {{ $periodoAnterior->nombre }}</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{{ $totalActual }}</div>
-            <div class="stat-label">Estudiantes {{ $periodoActual->nombre }}</div>
-        </div>
-        <div class="stat-card stat-card-nuevo">
-            <div class="stat-number">{{ $totalNuevos }}</div>
-            <div class="stat-label">Nuevos Estudiantes</div>
-        </div>
-        <div class="stat-card stat-card-desertor">
-            <div class="stat-number">{{ $totalDesertores }}</div>
-            <div class="stat-label">Desertores</div>
-        </div>
-        <div class="stat-card stat-card-cambio">
-            <div class="stat-number">{{ $totalCambiosCarrera }}</div>
-            <div class="stat-label">Cambios de Carrera</div>
-        </div>
-        <div class="stat-card stat-card-retencion">
-            <div class="stat-number">{{ $porcentajeRetencion }}%</div>
-            <div class="stat-label">Tasa de Retención</div>
-        </div>
-    </div>
+    <!-- TARJETAS EN 2 COLUMNAS (3 filas de 2) -->
+    <table class="stats-table">
+        <tr>
+            <td width="50%"><div class="stat-card"><div class="stat-number">{{ $totalAnterior }}</div><div class="stat-label">Estudiantes {{ $periodoAnterior->nombre }}</div></div></td>
+            <td width="50%"><div class="stat-card"><div class="stat-number">{{ $totalActual }}</div><div class="stat-label">Estudiantes {{ $periodoActual->nombre }}</div></div></td>
+        </tr>
+        <tr>
+            <td width="50%"><div class="stat-card stat-card-nuevo"><div class="stat-number">{{ $totalNuevos }}</div><div class="stat-label">Nuevos Estudiantes</div></div></td>
+            <td width="50%"><div class="stat-card stat-card-desertor"><div class="stat-number">{{ $totalDesertores }}</div><div class="stat-label">Desertores</div></div></td>
+        </tr>
+        <tr>
+            <td width="50%"><div class="stat-card stat-card-cambio"><div class="stat-number">{{ $totalCambiosCarrera }}</div><div class="stat-label">Cambios de Carrera</div></div></td>
+            <td width="50%"><div class="stat-card stat-card-retencion"><div class="stat-number">{{ $porcentajeRetencion }}%</div><div class="stat-label">Tasa de Retención</div></div></td>
+        </tr>
+    </table>
 
-    <!-- Resumen Ejecutivo (misma página) -->
+    <!-- Resumen Ejecutivo -->
     <div class="resumen-info">
         <strong>📊 Resumen Ejecutivo</strong><br>
         De <strong>{{ $totalAnterior }}</strong> estudiantes matriculados en <strong>{{ $periodoAnterior->nombre }}</strong>, 
@@ -228,9 +210,7 @@
         Además, <strong>{{ $totalNuevos }}</strong> nuevos estudiantes ingresaron en <strong>{{ $periodoActual->nombre }}</strong>.
     </div>
 
-    <!-- ============================================ -->
-    <!-- PÁGINA 2: NUEVOS ESTUDIANTES -->
-    <!-- ============================================ -->
+    <!-- NUEVOS ESTUDIANTES -->
     @if($totalNuevos > 0)
     <div class="page-break"></div>
     
@@ -239,34 +219,28 @@
     @foreach($nuevosPorPrograma as $programa => $estudiantes)
     <div class="subtitle-section">{{ $programa }} ({{ count($estudiantes) }} nuevos)</div>
     
-    <table>
-        <thead>
-            <tr>
-                <th class="col-doc">Documento</th>
-                <th class="col-nombre">Estudiante</th>
-                <th class="col-tel">Teléfono</th>
-                <th class="col-correo">Correo</th>
-                <th class="col-semestre">Semestre</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($estudiantes as $n)
-            <tr>
-                <td class="text-center">{{ $n['documento'] }}</td>
-                <td><strong>{{ $n['estudiante']->nombre }}</strong></td>
-                <td>{{ $n['estudiante']->telefono ?? '—' }}</td>
-                <td>{{ $n['estudiante']->correo ?? '—' }}</td>
-                <td class="text-center">{{ $n['semestre'] }}°</td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th class="col-doc">Documento</th>
+            <th class="col-nombre">Estudiante</th>
+            <th class="col-tel">Teléfono</th>
+            <th class="col-correo">Correo</th>
+            <th class="col-semestre">Semestre</th>
+        </tr>
+        @foreach($estudiantes as $n)
+        <tr>
+            <td class="text-center">{{ $n['documento'] }}</td>
+            <td><strong>{{ $n['estudiante']->nombre }}</strong></td>
+            <td>{{ $n['estudiante']->telefono ?? '—' }}</td>
+            <td>{{ $n['estudiante']->correo ?? '—' }}</td>
+            <td class="text-center">{{ $n['semestre'] }}°</td>
+        </tr>
+        @endforeach
     </table>
     @endforeach
     @endif
 
-    <!-- ============================================ -->
-    <!-- PÁGINA 3: DESERTORES -->
-    <!-- ============================================ -->
+    <!-- DESERTORES -->
     @if($totalDesertores > 0)
     <div class="page-break"></div>
     
@@ -281,80 +255,68 @@
     @foreach($desertoresPorPrograma as $programa => $estudiantes)
     <div class="subtitle-section">{{ $programa }} ({{ count($estudiantes) }} desertores)</div>
     
-    <table>
-        <thead>
-            <tr>
-                <th class="col-doc">Documento</th>
-                <th class="col-nombre">Estudiante</th>
-                <th class="col-tel">Teléfono</th>
-                <th class="col-correo">Correo</th>
-                <th class="col-semestre">Semestre</th>
-                <th class="col-reportes">Reportes</th>
-                <th class="col-estado">Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($estudiantes as $d)
-            <tr>
-                <td class="text-center">{{ $d['documento'] }}</td>
-                <td><strong>{{ $d['estudiante']->nombre }}</strong></td>
-                <td>{{ $d['estudiante']->telefono ?? '—' }}</td>
-                <td>{{ $d['estudiante']->correo ?? '—' }}</td>
-                <td class="text-center">{{ $d['semestre'] }}°</td>
-                <td class="text-center">{{ $d['total_reportes'] }}</td>
-                <td>
-                    @if($d['total_reportes'] > 0)
-                        [C]: {{ $d['reportes_cerrados'] }} - [S]: {{ $d['reportes_seguimiento'] }} - [P]: {{ $d['reportes_pendientes'] }}
-                    @else
-                        Sin reportes
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th class="col-doc">Documento</th>
+            <th class="col-nombre">Estudiante</th>
+            <th class="col-tel">Teléfono</th>
+            <th class="col-correo">Correo</th>
+            <th class="col-semestre">Semestre</th>
+            <th class="col-reportes">Reportes</th>
+            <th class="col-estado">Estado</th>
+        </tr>
+        @foreach($estudiantes as $d)
+        <tr>
+            <td class="text-center">{{ $d['documento'] }}</td>
+            <td><strong>{{ $d['estudiante']->nombre }}</strong></td>
+            <td>{{ $d['estudiante']->telefono ?? '—' }}</td>
+            <td>{{ $d['estudiante']->correo ?? '—' }}</td>
+            <td class="text-center">{{ $d['semestre'] }}°</td>
+            <td class="text-center">{{ $d['total_reportes'] }}</td>
+            <td>
+                @if($d['total_reportes'] > 0)
+                    [C]: {{ $d['reportes_cerrados'] }} - [S]: {{ $d['reportes_seguimiento'] }} - [P]: {{ $d['reportes_pendientes'] }}
+                @else
+                    Sin reportes
+                @endif
+            </td>
+        </tr>
+        @endforeach
     </table>
     @endforeach
     @endif
 
-    <!-- ============================================ -->
-    <!-- PÁGINA 4: CAMBIOS DE CARRERA -->
-    <!-- ============================================ -->
+    <!-- CAMBIOS DE CARRERA -->
     @if($totalCambiosCarrera > 0)
     <div class="page-break"></div>
     
     <div class="title-section">Cambios de Carrera ({{ $totalCambiosCarrera }})</div>
     
-    <table>
-        <thead>
-            <tr>
-                <th class="col-doc">Documento</th>
-                <th class="col-nombre">Estudiante</th>
-                <th class="col-tel">Teléfono</th>
-                <th class="col-correo">Correo</th>
-                <th class="col-carrera-ant">Carrera Anterior</th>
-                <th class="col-carrera-act">Carrera Actual</th>
-                <th class="col-reportes">Reportes</th>
-            </td>
-        </thead>
-        <tbody>
-            @foreach($cambiosCarrera as $c)
-            <tr>
-                <td class="text-center">{{ $c['documento'] }}</td>
-                <td><strong>{{ $c['estudiante']->nombre }}</strong></td>
-                <td>{{ $c['estudiante']->telefono ?? '—' }}</td>
-                <td>{{ $c['estudiante']->correo ?? '—' }}</td>
-                <td>{{ $c['programa_anterior'] }}</td>
-                <td>{{ $c['programa_actual'] }}</td>
-                <td class="text-center">{{ $c['total_reportes'] }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th class="col-doc">Documento</th>
+            <th class="col-nombre">Estudiante</th>
+            <th class="col-tel">Teléfono</th>
+            <th class="col-correo">Correo</th>
+            <th class="col-carrera-ant">Carrera Anterior</th>
+            <th class="col-carrera-act">Carrera Actual</th>
+            <th class="col-reportes">Reportes</th>
+        </tr>
+        @foreach($cambiosCarrera as $c)
+        <tr>
+            <td class="text-center">{{ $c['documento'] }}</td>
+            <td><strong>{{ $c['estudiante']->nombre }}</strong></td>
+            <td>{{ $c['estudiante']->telefono ?? '—' }}</td>
+            <td>{{ $c['estudiante']->correo ?? '—' }}</td>
+            <td>{{ $c['programa_anterior'] }}</td>
+            <td>{{ $c['programa_actual'] }}</td>
+            <td class="text-center">{{ $c['total_reportes'] }}</td>
+        </tr>
+        @endforeach
     </table>
     @endif
 
-    <!-- ============================================ -->
-    <!-- PÁGINA 5: POSIBLES GRADUADOS -->
-    <!-- ============================================ -->
+    <!-- POSIBLES GRADUADOS -->
     @if($totalGraduados > 0)
     <div class="page-break"></div>
     
@@ -377,9 +339,7 @@
     </div>
     @endif
     
-    <!-- ============================================ -->
     <!-- MENSAJE SI NO HAY DATOS -->
-    <!-- ============================================ -->
     @if($totalDesertores == 0 && $totalGraduados == 0 && $totalCambiosCarrera == 0 && $totalNuevos == 0)
     <div class="page-break"></div>
     <div style="background: #FFF3E0; padding: 12px; text-align: center; margin-top: 20px; border-radius: 8px;">
@@ -388,9 +348,6 @@
     </div>
     @endif
     
-    <!-- ============================================ -->
-    <!-- FOOTER -->
-    <!-- ============================================ -->
     <div class="footer">
         <p>Reporte generado por el Sistema de Seguimiento CRU - Politécnico Colombiano Jaime Isaza Cadavid</p>
         <p>* Un desertor es un estudiante que no continúa y no ha completado los semestres mínimos (10 profesionales / 6 tecnologías)</p>
