@@ -1,17 +1,25 @@
 FROM php:8.2-apache
 
-# Instalar dependencias
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     zip \
-    unzip \
-    && docker-php-ext-install pdo_pgsql pgsql zip
+    unzip
+
+# Instalar extensiones de PHP (incluyendo gd)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
+RUN docker-php-ext-install pdo_pgsql pgsql zip
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Configurar Apache
+# Configurar Apache para apuntar a public
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
@@ -20,7 +28,7 @@ RUN a2enmod rewrite
 # Copiar archivos del proyecto
 COPY . /var/www/html
 
-# Instalar dependencias de Composer
+# Instalar dependencias de Composer (ignorando la falta de extensiones, pero ahora gd está instalada)
 RUN composer install --optimize-autoloader --no-dev
 
 # Configurar permisos
