@@ -71,14 +71,21 @@ class RecuperacionController extends Controller
             ]
         );
 
-        // Enviar correo
+        // Enviar correo con logging
         try {
+            // Verificar que la configuración de mail existe
+            \Log::info('Intentando enviar correo a: ' . $correo);
+            \Log::info('Configuración MAIL_HOST: ' . env('MAIL_HOST'));
+            \Log::info('Configuración MAIL_PORT: ' . env('MAIL_PORT'));
+            
             Mail::to($correo)->send(new CodigoRecuperacionMail($codigo, $persona->primer_nombre));
+            
+            \Log::info('Correo enviado exitosamente');
         } catch (\Exception $e) {
-            return redirect('/recuperar-contrasena')->with('error', 'Error al enviar el correo. Intente nuevamente.');
+            \Log::error('Error enviando correo: ' . $e->getMessage());
+            return redirect('/recuperar-contrasena')->with('error', 'Error al enviar el correo: ' . $e->getMessage());
         }
 
-        // Guardar correo en sesión para el siguiente paso
         session(['reset_email' => $correo]);
 
         return redirect('/validar-codigo')->with('success', 'Se ha enviado un código de verificación a tu correo electrónico.');
