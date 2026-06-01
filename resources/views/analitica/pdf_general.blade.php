@@ -41,7 +41,7 @@
             page-break-before: always;
         }
         
-        /* Tarjetas de estadísticas - usando tabla en lugar de flex/grid */
+        /* Tarjetas de estadísticas - MISMO ESTILO VISUAL pero con tabla (compatible) */
         .stats-table {
             width: 100%;
             margin-bottom: 25px;
@@ -58,6 +58,7 @@
             border-radius: 8px;
             text-align: center;
             border-top: 3px solid #2D7D32;
+            min-width: 100px;
         }
         .stat-number {
             font-size: 24px;
@@ -143,7 +144,7 @@
         <p>Fecha de generación: {{ $fechaGeneracion }}</p>
     </div>
 
-    <!-- TARJETAS DE ESTADÍSTICAS (tabla en lugar de flex/grid) -->
+    <!-- TARJETAS DE ESTADÍSTICAS (mismo aspecto visual) -->
     <table class="stats-table">
         <tr>
             <td width="25%"><div class="stat-card"><div class="stat-number">{{ $totalAlertas }}</div><div class="stat-label">Total Alertas</div></div></td>
