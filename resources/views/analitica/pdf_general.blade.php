@@ -41,7 +41,7 @@
             page-break-before: always;
         }
         
-        /* Tarjetas de estadísticas - MISMO ESTILO VISUAL pero con tabla (compatible) */
+        /* Tarjetas de estadísticas - 2x2 */
         .stats-table {
             width: 100%;
             margin-bottom: 25px;
@@ -49,26 +49,25 @@
         }
         .stats-table td {
             border: none;
-            padding: 6px;
+            padding: 8px;
             vertical-align: top;
         }
         .stat-card {
             background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 20px 15px;
+            border-radius: 10px;
             text-align: center;
-            border-top: 3px solid #2D7D32;
-            min-width: 100px;
+            border-top: 4px solid #2D7D32;
         }
         .stat-number {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #2D7D32;
         }
         .stat-label {
-            font-size: 10px;
+            font-size: 11px;
             color: #6c757d;
-            margin-top: 4px;
+            margin-top: 6px;
         }
         
         /* Tablas de datos */
@@ -136,7 +135,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <div class="header">
         <h1>Reporte General de Alertas</h1>
         <p>Sistema de Seguimiento CRU - Politécnico Colombiano Jaime Isaza Cadavid</p>
@@ -144,17 +142,38 @@
         <p>Fecha de generación: {{ $fechaGeneracion }}</p>
     </div>
 
-    <!-- TARJETAS DE ESTADÍSTICAS (mismo aspecto visual) -->
+    <!-- TARJETAS EN 2 FILAS DE 2 -->
     <table class="stats-table">
         <tr>
-            <td width="25%"><div class="stat-card"><div class="stat-number">{{ $totalAlertas }}</div><div class="stat-label">Total Alertas</div></div></td>
-            <td width="25%"><div class="stat-card" style="border-top-color: #E65100"><div class="stat-number">{{ $alertasPorEstado['pendiente'] ?? 0 }}</div><div class="stat-label">Pendientes</div></div></td>
-            <td width="25%"><div class="stat-card" style="border-top-color: #1565C0"><div class="stat-number">{{ $alertasPorEstado['en_seguimiento'] ?? 0 }}</div><div class="stat-label">En Seguimiento</div></div></td>
-            <td width="25%"><div class="stat-card" style="border-top-color: #2D7D32"><div class="stat-number">{{ $alertasPorEstado['cerrado'] ?? 0 }}</div><div class="stat-label">Cerrados</div></div></td>
+            <td width="50%">
+                <div class="stat-card">
+                    <div class="stat-number">{{ $totalAlertas }}</div>
+                    <div class="stat-label">Total Alertas</div>
+                </div>
+            </td>
+            <td width="50%">
+                <div class="stat-card" style="border-top-color: #E65100">
+                    <div class="stat-number">{{ $alertasPorEstado['pendiente'] ?? 0 }}</div>
+                    <div class="stat-label">Pendientes</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                <div class="stat-card" style="border-top-color: #1565C0">
+                    <div class="stat-number">{{ $alertasPorEstado['en_seguimiento'] ?? 0 }}</div>
+                    <div class="stat-label">En Seguimiento</div>
+                </div>
+            </td>
+            <td width="50%">
+                <div class="stat-card" style="border-top-color: #2D7D32">
+                    <div class="stat-number">{{ $alertasPorEstado['cerrado'] ?? 0 }}</div>
+                    <div class="stat-label">Cerrados</div>
+                </div>
+            </td>
         </tr>
     </table>
 
-    <!-- NUEVA PÁGINA -->
     <div class="page-break"></div>
 
     <!-- ALERTAS POR TIPO -->
@@ -301,11 +320,9 @@
     <p style="text-align: center; color: #6c757d; padding: 40px;">No hay alertas registradas en este período.</p>
     @endif
 
-    <!-- FOOTER -->
     <div class="footer">
         <p>Reporte generado por el Sistema de Seguimiento CRU</p>
         <p>Polotécnico Colombiano Jaime Isaza Cadavid - Sede Urabá</p>
-        
         <div class="generado-por">
             Generado por: {{ session('nombre_completo') ?? session('usuario') }} ({{ ucfirst(session('rol')) }})
         </div>
