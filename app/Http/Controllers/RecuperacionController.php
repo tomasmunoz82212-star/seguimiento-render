@@ -69,15 +69,13 @@ class RecuperacionController extends Controller
             ]
         );
 
-        // Guardar código en logs para la demo (en lugar de enviar correo)
-        \Log::info('========== CÓDIGO DE RECUPERACIÓN ==========');
-        \Log::info('Correo: ' . $correo);
-        \Log::info('Código: ' . $codigo);
-        \Log::info('============================================');
+        // Guardar código en logs para respaldo
+        \Log::info('Código de recuperación para ' . $correo . ': ' . $codigo);
 
         session(['reset_email' => $correo]);
 
-        return redirect('/validar-codigo')->with('success', 'Se ha generado un código de verificación. Revisa los logs del servidor.');
+        // Mostrar el código directamente al usuario
+        return redirect('/validar-codigo')->with('success', 'Código de verificación generado: ' . $codigo);
     }
 
     /**
