@@ -6,9 +6,8 @@ use App\Models\Usuario;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use App\Mail\CodigoRecuperacionMail;
+use App\Services\BrevoMailService;
 use Carbon\Carbon;
 
 class RecuperacionController extends Controller
@@ -71,19 +70,26 @@ class RecuperacionController extends Controller
             ]
         );
 
-        // Enviar correo con logging
+        // Enviar correo usando la API de Brevo
         try {
-            // Verificar que la configuración de mail existe
-            \Log::info('Intentando enviar correo a: ' . $correo);
-            \Log::info('Configuración MAIL_HOST: ' . env('MAIL_HOST'));
-            \Log::info('Configuración MAIL_PORT: ' . env('MAIL_PORT'));
+            $brevoMailService = new BrevoMailService();
+            $htmlContent = view('emails.codigo-recuperacion', [
+                'codigo' => $codigo,
+                'nombre' => $persona->primer_nombre
+            ])->render();
             
-            Mail::to($correo)->send(new CodigoRecuperacionMail($codigo, $persona->primer_nombre));
+            $sent = $brevoMailService->sendEmail(
+                $correo,
+                'Recuperación de contraseña - Sistema de Seguimiento CRU',
+                $htmlContent
+            );
             
-            \Log::info('Correo enviado exitosamente');
+            if (!$sent) {
+                throw new \Exception('Error al enviar por API');
+            }
         } catch (\Exception $e) {
             \Log::error('Error enviando correo: ' . $e->getMessage());
-            return redirect('/recuperar-contrasena')->with('error', 'Error al enviar el correo: ' . $e->getMessage());
+            return redirect('/recuperar-contrasena')->with('error', 'Error al enviar el correo. Intente nuevamente.');
         }
 
         session(['reset_email' => $correo]);
@@ -245,10 +251,25 @@ class RecuperacionController extends Controller
             ]
         );
 
-        // Enviar correo
+        // Enviar correo usando la API de Brevo
         try {
-            Mail::to($email)->send(new CodigoRecuperacionMail($codigo, $persona->primer_nombre));
+            $brevoMailService = new BrevoMailService();
+            $htmlContent = view('emails.codigo-recuperacion', [
+                'codigo' => $codigo,
+                'nombre' => $persona->primer_nombre
+            ])->render();
+            
+            $sent = $brevoMailService->sendEmail(
+                $email,
+                'Recuperación de contraseña - Sistema de Seguimiento CRU',
+                $htmlContent
+            );
+            
+            if (!$sent) {
+                throw new \Exception('Error al enviar por API');
+            }
         } catch (\Exception $e) {
+            \Log::error('Error reenviando correo: ' . $e->getMessage());
             return back()->with('error', 'Error al reenviar el correo.');
         }
 
