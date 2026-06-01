@@ -2,7 +2,7 @@
 @section('titulo', 'Comparativa de Períodos')
 
 @push('estilos')
-<link rel="stylesheet" href="{{ asset('css/modules/analitica.css') }}">
+<link rel="stylesheet" href="{{ asset('css/modules/Analitica.css') }}">
 @endpush
 
 @section('contenido')

@@ -2,7 +2,7 @@
 @section('titulo', 'Estudiantes — ' . $periodo->nombre)
 
 @push('estilos')
-<link rel="stylesheet" href="{{ asset('css/modules/periodos.css') }}">
+<link rel="stylesheet" href="{{ asset('css/modules/Periodos.css') }}">
 @endpush
 
 @section('contenido')

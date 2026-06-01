@@ -2,7 +2,7 @@
 @section('titulo', 'Nuevo Reporte')
 
 @push('estilos')
-<link rel="stylesheet" href="{{ asset('css/modules/reportes.css') }}">
+<link rel="stylesheet" href="{{ asset('css/modules/Reportes.css') }}">
 @endpush
 
 @section('contenido')

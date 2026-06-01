@@ -2,7 +2,7 @@
 @section('titulo', 'Nuevo Periodo Académico')
 
 @push('estilos')
-<link rel="stylesheet" href="{{ asset('css/modules/periodos.css') }}">
+<link rel="stylesheet" href="{{ asset('css/modules/Periodos.css') }}">
 @endpush
 
 @section('contenido')
