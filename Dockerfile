@@ -19,7 +19,7 @@ RUN docker-php-ext-install pdo_pgsql pgsql zip
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Configurar Apache para apuntar a public
+# Configurar Apache
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
@@ -29,6 +29,12 @@ RUN a2enmod rewrite
 RUN echo "AddType text/css .css" >> /etc/apache2/apache2.conf
 RUN echo "AddType application/javascript .js" >> /etc/apache2/apache2.conf
 
+# Crear carpetas de cache
+RUN mkdir -p /var/www/html/storage/framework/cache
+RUN mkdir -p /var/www/html/storage/framework/sessions
+RUN mkdir -p /var/www/html/storage/framework/views
+RUN mkdir -p /var/www/html/bootstrap/cache
+
 # Copiar archivos del proyecto
 COPY . /var/www/html
 
@@ -37,5 +43,10 @@ RUN composer install --optimize-autoloader --no-dev
 
 # Configurar permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 777 /var/www/html/storage/framework/cache
+RUN chmod -R 775 /var/www/html/storage/framework/sessions
+RUN chmod -R 775 /var/www/html/storage/framework/views
+RUN chmod -R 775 /var/www/html/bootstrap/cache
 
 EXPOSE 80
