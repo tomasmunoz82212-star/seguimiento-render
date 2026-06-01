@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip
 
-# Instalar extensiones de PHP (incluyendo gd)
+# Instalar extensiones de PHP
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 
@@ -25,10 +25,14 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 RUN a2enmod rewrite
 
+# Configurar tipos MIME
+RUN echo "AddType text/css .css" >> /etc/apache2/apache2.conf
+RUN echo "AddType application/javascript .js" >> /etc/apache2/apache2.conf
+
 # Copiar archivos del proyecto
 COPY . /var/www/html
 
-# Instalar dependencias de Composer (ignorando la falta de extensiones, pero ahora gd está instalada)
+# Instalar dependencias de Composer
 RUN composer install --optimize-autoloader --no-dev
 
 # Configurar permisos
