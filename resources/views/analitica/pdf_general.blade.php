@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Reporte General de Alertas</title>
     <style>
-        /* ============================================
-           TIPOGRAFÍA UNIFICADA
-        ============================================ */
         * {
             font-family: 'DejaVu Sans', 'Segoe UI', 'Helvetica', Arial, sans-serif !important;
         }
@@ -17,7 +14,6 @@
             font-size: 11px;
         }
         
-        /* Página horizontal */
         @page {
             size: landscape;
             margin: 15mm;
@@ -45,24 +41,23 @@
             page-break-before: always;
         }
         
-        /* ============================================
-           TARJETAS DE ESTADÍSTICAS
-        ============================================ */
-        .stats-grid {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
+        /* Tarjetas de estadísticas - usando tabla en lugar de flex/grid */
+        .stats-table {
+            width: 100%;
             margin-bottom: 25px;
-            flex-wrap: wrap;
+            border-collapse: collapse;
+        }
+        .stats-table td {
+            border: none;
+            padding: 6px;
+            vertical-align: top;
         }
         .stat-card {
-            flex: 1;
             background: #f8f9fa;
             padding: 12px;
             border-radius: 8px;
             text-align: center;
             border-top: 3px solid #2D7D32;
-            min-width: 100px;
         }
         .stat-number {
             font-size: 24px;
@@ -75,27 +70,25 @@
             margin-top: 4px;
         }
         
-        /* ============================================
-           TABLAS
-        ============================================ */
-        table {
+        /* Tablas de datos */
+        .data-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
             font-size: 10px;
-            table-layout: fixed;
         }
-        th, td {
+        .data-table th, .data-table td {
             border: 1px solid #dee2e6;
             padding: 8px 6px;
             text-align: left;
             vertical-align: top;
-            word-wrap: break-word;
         }
-        th {
+        .data-table th {
             background: #f8f9fa;
             font-weight: bold;
-            color: #495057;
+            text-align: center;
+        }
+        .data-table .text-center {
             text-align: center;
         }
         
@@ -142,7 +135,7 @@
 </head>
 <body>
 
-    <!-- PÁGINA 1: HEADER + TARJETAS -->
+    <!-- HEADER -->
     <div class="header">
         <h1>Reporte General de Alertas</h1>
         <p>Sistema de Seguimiento CRU - Politécnico Colombiano Jaime Isaza Cadavid</p>
@@ -150,184 +143,155 @@
         <p>Fecha de generación: {{ $fechaGeneracion }}</p>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-number">{{ $totalAlertas }}</div>
-            <div class="stat-label">Total Alertas</div>
-        </div>
-        <div class="stat-card" style="border-top-color: #E65100">
-            <div class="stat-number">{{ $alertasPorEstado['pendiente'] ?? 0 }}</div>
-            <div class="stat-label">Pendientes</div>
-        </div>
-        <div class="stat-card" style="border-top-color: #1565C0">
-            <div class="stat-number">{{ $alertasPorEstado['en_seguimiento'] ?? 0 }}</div>
-            <div class="stat-label">En Seguimiento</div>
-        </div>
-        <div class="stat-card" style="border-top-color: #2D7D32">
-            <div class="stat-number">{{ $alertasPorEstado['cerrado'] ?? 0 }}</div>
-            <div class="stat-label">Cerrados</div>
-        </div>
-    </div>
-
-    <!-- PÁGINA 2: ALERTAS POR TIPO Y POR PROGRAMA (TABLAS) -->
-    <div class="page-break"></div>
-
-    <!-- Tabla: Alertas por Tipo -->
-    <div class="title-section">Alertas por Tipo</div>
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 50%;">Tipo</th>
-                <th style="width: 25%;">Cantidad</th>
-                <th style="width: 25%;">Porcentaje</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Académico</strong></td>
-                <td class="text-center">{{ $alertasPorTipo['academico'] ?? 0 }}</td>
-                <td class="text-center">{{ $totalAlertas > 0 ? round((($alertasPorTipo['academico'] ?? 0) / $totalAlertas) * 100, 1) : 0 }}%</td>
-            </tr>
-            <tr>
-                <td><strong>Asistencia</strong></td>
-                <td class="text-center">{{ $alertasPorTipo['asistencia'] ?? 0 }}</td>
-                <td class="text-center">{{ $totalAlertas > 0 ? round((($alertasPorTipo['asistencia'] ?? 0) / $totalAlertas) * 100, 1) : 0 }}%</td>
-            </tr>
-            <tr>
-                <td><strong>Comportamiento</strong></td>
-                <td class="text-center">{{ $alertasPorTipo['comportamiento'] ?? 0 }}</td>
-                <td class="text-center">{{ $totalAlertas > 0 ? round((($alertasPorTipo['comportamiento'] ?? 0) / $totalAlertas) * 100, 1) : 0 }}%</td>
-            </tr>
-        </tbody>
+    <!-- TARJETAS DE ESTADÍSTICAS (tabla en lugar de flex/grid) -->
+    <table class="stats-table">
+        <tr>
+            <td width="25%"><div class="stat-card"><div class="stat-number">{{ $totalAlertas }}</div><div class="stat-label">Total Alertas</div></div></td>
+            <td width="25%"><div class="stat-card" style="border-top-color: #E65100"><div class="stat-number">{{ $alertasPorEstado['pendiente'] ?? 0 }}</div><div class="stat-label">Pendientes</div></div></td>
+            <td width="25%"><div class="stat-card" style="border-top-color: #1565C0"><div class="stat-number">{{ $alertasPorEstado['en_seguimiento'] ?? 0 }}</div><div class="stat-label">En Seguimiento</div></div></td>
+            <td width="25%"><div class="stat-card" style="border-top-color: #2D7D32"><div class="stat-number">{{ $alertasPorEstado['cerrado'] ?? 0 }}</div><div class="stat-label">Cerrados</div></div></td>
+        </tr>
     </table>
 
-    <!-- Tabla: Alertas por Programa -->
+    <!-- NUEVA PÁGINA -->
+    <div class="page-break"></div>
+
+    <!-- ALERTAS POR TIPO -->
+    <div class="title-section">Alertas por Tipo</div>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th style="width: 50%;">Tipo</th>
+            <th style="width: 25%;">Cantidad</th>
+            <th style="width: 25%;">Porcentaje</th>
+        </tr>
+        <tr>
+            <td><strong>Académico</strong></td>
+            <td class="text-center">{{ $alertasPorTipo['academico'] ?? 0 }}</td>
+            <td class="text-center">{{ $totalAlertas > 0 ? round((($alertasPorTipo['academico'] ?? 0) / $totalAlertas) * 100, 1) : 0 }}%</td>
+        </tr>
+        <tr>
+            <td><strong>Asistencia</strong></td>
+            <td class="text-center">{{ $alertasPorTipo['asistencia'] ?? 0 }}</td>
+            <td class="text-center">{{ $totalAlertas > 0 ? round((($alertasPorTipo['asistencia'] ?? 0) / $totalAlertas) * 100, 1) : 0 }}%</td>
+        </tr>
+        <tr>
+            <td><strong>Comportamiento</strong></td>
+            <td class="text-center">{{ $alertasPorTipo['comportamiento'] ?? 0 }}</td>
+            <td class="text-center">{{ $totalAlertas > 0 ? round((($alertasPorTipo['comportamiento'] ?? 0) / $totalAlertas) * 100, 1) : 0 }}%</td>
+        </tr>
+    </table>
+
+    <!-- ALERTAS POR PROGRAMA -->
     <div class="title-section" style="margin-top: 25px;">Alertas por Programa</div>
     @if(count($alertasPorPrograma) > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 50%;">Programa</th>
-                    <th style="width: 25%;">Cantidad</th>
-                    <th style="width: 25%;">Porcentaje</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($alertasPorPrograma as $programa)
-                <tr>
-                    <td><strong>{{ $programa['nombre'] }}</strong></td>
-                    <td class="text-center">{{ $programa['total'] }}</td>
-                    <td class="text-center">{{ $totalAlertas > 0 ? round(($programa['total'] / $totalAlertas) * 100, 1) : 0 }}%</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th style="width: 50%;">Programa</th>
+            <th style="width: 25%;">Cantidad</th>
+            <th style="width: 25%;">Porcentaje</th>
+        </tr>
+        @foreach($alertasPorPrograma as $programa)
+        <tr>
+            <td><strong>{{ $programa['nombre'] }}</strong></td>
+            <td class="text-center">{{ $programa['total'] }}</td>
+            <td class="text-center">{{ $totalAlertas > 0 ? round(($programa['total'] / $totalAlertas) * 100, 1) : 0 }}%</td>
+        </tr>
+        @endforeach
+    </table>
     @else
         <p style="color: #6c757d; text-align: center; padding: 20px;">No hay alertas registradas por programa</p>
     @endif
 
-    <!-- PÁGINA 3: ALERTAS PENDIENTES -->
+    <!-- ALERTAS PENDIENTES -->
     @if($alertasPendientes->count() > 0)
     <div class="page-break"></div>
     
     <div class="title-section">Alertas Pendientes</div>
     <div class="subtitle-section">Total: {{ $alertasPendientes->count() }} alertas</div>
     
-    <table>
-        <thead>
-            <tr>
-                <th class="col-fecha">Fecha</th>
-                <th class="col-documento">Documento</th>
-                <th class="col-estudiante">Estudiante</th>
-                <th class="col-carrera">Carrera</th>
-                <th class="col-tipo">Tipo</th>
-                <th class="col-descripcion">Descripción</th>
-                <th class="col-registrado">Registrado por</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($alertasPendientes as $alerta)
-            <tr>
-                <td class="text-center">{{ \Carbon\Carbon::parse($alerta->creado_en)->format('d/m/Y') }}</td>
-                <td class="text-center">{{ $alerta->estudiante->documento }}</td>
-                <td><strong>{{ $alerta->estudiante->nombre }}</strong></td>
-                <td>{{ $alerta->carrera_nombre }}</td>
-                <td class="text-center">{{ ucfirst($alerta->tipo) }}</td>
-                <td style="font-size: 8.5px; line-height: 1.4;">{{ $alerta->descripcion }}</td>
-                <td>{{ $alerta->usuario->nombre_completo ?? 'Sistema' }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th class="col-fecha">Fecha</th>
+            <th class="col-documento">Documento</th>
+            <th class="col-estudiante">Estudiante</th>
+            <th class="col-carrera">Carrera</th>
+            <th class="col-tipo">Tipo</th>
+            <th class="col-descripcion">Descripción</th>
+            <th class="col-registrado">Registrado por</th>
+        </tr>
+        @foreach($alertasPendientes as $alerta)
+        <tr>
+            <td class="text-center">{{ \Carbon\Carbon::parse($alerta->creado_en)->format('d/m/Y') }}</td>
+            <td class="text-center">{{ $alerta->estudiante->documento }}</td>
+            <td><strong>{{ $alerta->estudiante->nombre }}</strong></td>
+            <td>{{ $alerta->carrera_nombre }}</td>
+            <td class="text-center">{{ ucfirst($alerta->tipo) }}</td>
+            <td style="font-size: 8.5px; line-height: 1.4;">{{ $alerta->descripcion }}</td>
+            <td>{{ $alerta->usuario->nombre_completo ?? 'Sistema' }}</td>
+        </tr>
+        @endforeach
     </table>
     @endif
 
-    <!-- PÁGINA 4: ALERTAS EN SEGUIMIENTO -->
+    <!-- ALERTAS EN SEGUIMIENTO -->
     @if($alertasSeguimiento->count() > 0)
     <div class="page-break"></div>
     
     <div class="title-section">Alertas en Seguimiento</div>
     <div class="subtitle-section">Total: {{ $alertasSeguimiento->count() }} alertas</div>
     
-    <table>
-        <thead>
-            <tr>
-                <th class="col-fecha">Fecha</th>
-                <th class="col-documento">Documento</th>
-                <th class="col-estudiante">Estudiante</th>
-                <th class="col-carrera">Carrera</th>
-                <th class="col-tipo">Tipo</th>
-                <th class="col-descripcion">Descripción</th>
-                <th class="col-registrado">Registrado por</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($alertasSeguimiento as $alerta)
-            <tr>
-                <td class="text-center">{{ \Carbon\Carbon::parse($alerta->creado_en)->format('d/m/Y') }}</td>
-                <td class="text-center">{{ $alerta->estudiante->documento }}</td>
-                <td><strong>{{ $alerta->estudiante->nombre }}</strong></td>
-                <td>{{ $alerta->carrera_nombre }}</td>
-                <td class="text-center">{{ ucfirst($alerta->tipo) }}</td>
-                <td style="font-size: 8.5px; line-height: 1.4;">{{ $alerta->descripcion }}</td>
-                <td>{{ $alerta->usuario->nombre_completo ?? 'Sistema' }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th class="col-fecha">Fecha</th>
+            <th class="col-documento">Documento</th>
+            <th class="col-estudiante">Estudiante</th>
+            <th class="col-carrera">Carrera</th>
+            <th class="col-tipo">Tipo</th>
+            <th class="col-descripcion">Descripción</th>
+            <th class="col-registrado">Registrado por</th>
+        </tr>
+        @foreach($alertasSeguimiento as $alerta)
+        <tr>
+            <td class="text-center">{{ \Carbon\Carbon::parse($alerta->creado_en)->format('d/m/Y') }}</td>
+            <td class="text-center">{{ $alerta->estudiante->documento }}</td>
+            <td><strong>{{ $alerta->estudiante->nombre }}</strong></td>
+            <td>{{ $alerta->carrera_nombre }}</td>
+            <td class="text-center">{{ ucfirst($alerta->tipo) }}</td>
+            <td style="font-size: 8.5px; line-height: 1.4;">{{ $alerta->descripcion }}</td>
+            <td>{{ $alerta->usuario->nombre_completo ?? 'Sistema' }}</td>
+        </tr>
+        @endforeach
     </table>
     @endif
 
-    <!-- PÁGINA 5: ALERTAS CERRADAS -->
+    <!-- ALERTAS CERRADAS -->
     @if($alertasCerrados->count() > 0)
     <div class="page-break"></div>
     
     <div class="title-section">Alertas Cerradas</div>
     <div class="subtitle-section">Total: {{ $alertasCerrados->count() }} alertas</div>
     
-    </table>
-        <thead>
-            <tr>
-                <th class="col-fecha">Fecha</th>
-                <th class="col-documento">Documento</th>
-                <th class="col-estudiante">Estudiante</th>
-                <th class="col-carrera">Carrera</th>
-                <th class="col-tipo">Tipo</th>
-                <th class="col-descripcion">Descripción</th>
-                <th class="col-registrado">Registrado por</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($alertasCerrados as $alerta)
-            <tr>
-                <td class="text-center">{{ \Carbon\Carbon::parse($alerta->creado_en)->format('d/m/Y') }}</td>
-                <td class="text-center">{{ $alerta->estudiante->documento }}</td>
-                <td><strong>{{ $alerta->estudiante->nombre }}</strong></td>
-                <td>{{ $alerta->carrera_nombre }}</td>
-                <td class="text-center">{{ ucfirst($alerta->tipo) }}</td>
-                <td style="font-size: 8.5px; line-height: 1.4;">{{ $alerta->descripcion }}</td>
-                <td>{{ $alerta->usuario->nombre_completo ?? 'Sistema' }}</td>
-            </tr>
-            @endforeach
-        </tbody>
+    <table class="data-table">
+        <tr style="background: #f8f9fa; font-weight: bold;">
+            <th class="col-fecha">Fecha</th>
+            <th class="col-documento">Documento</th>
+            <th class="col-estudiante">Estudiante</th>
+            <th class="col-carrera">Carrera</th>
+            <th class="col-tipo">Tipo</th>
+            <th class="col-descripcion">Descripción</th>
+            <th class="col-registrado">Registrado por</th>
+        </tr>
+        @foreach($alertasCerrados as $alerta)
+        <tr>
+            <td class="text-center">{{ \Carbon\Carbon::parse($alerta->creado_en)->format('d/m/Y') }}</td>
+            <td class="text-center">{{ $alerta->estudiante->documento }}</td>
+            <td><strong>{{ $alerta->estudiante->nombre }}</strong></td>
+            <td>{{ $alerta->carrera_nombre }}</td>
+            <td class="text-center">{{ ucfirst($alerta->tipo) }}</td>
+            <td style="font-size: 8.5px; line-height: 1.4;">{{ $alerta->descripcion }}</td>
+            <td>{{ $alerta->usuario->nombre_completo ?? 'Sistema' }}</td>
+        </tr>
+        @endforeach
     </table>
     @endif
 
@@ -336,6 +300,7 @@
     <p style="text-align: center; color: #6c757d; padding: 40px;">No hay alertas registradas en este período.</p>
     @endif
 
+    <!-- FOOTER -->
     <div class="footer">
         <p>Reporte generado por el Sistema de Seguimiento CRU</p>
         <p>Polotécnico Colombiano Jaime Isaza Cadavid - Sede Urabá</p>
