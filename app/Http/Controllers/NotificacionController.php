@@ -50,7 +50,7 @@ class NotificacionController extends Controller
         if ($periodoId) {
             $query->where(function($q) use ($periodoId) {
                 $q->where('periodo_id', $periodoId)
-                  ->orWhereNull('periodo_id');
+                ->orWhereNull('periodo_id');
             });
         }
         

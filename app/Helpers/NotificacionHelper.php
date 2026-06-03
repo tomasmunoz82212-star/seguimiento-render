@@ -8,7 +8,8 @@ use App\Models\Notificacion;
 class NotificacionHelper
 {
     /**
-     * Retorna el número de notificaciones no leídas del usuario actual de sesión.
+     * Retorna el número de notificaciones no leídas del usuario actual de sesión,
+     * filtradas por el período activo en sesión.
      *
      * @return int
      */
@@ -23,7 +24,20 @@ class NotificacionHelper
             return 0;
         }
 
-        // Usar el nuevo método que filtra por período
-        return PeriodoHelper::contarNotificacionesNoLeidas($usuario->id);
+        // Obtener el período de sesión
+        $periodoId = PeriodoHelper::getPeriodoIdSesion();
+        
+        $query = Notificacion::where('usuario_id', $usuario->id)
+            ->where('leida', false);
+        
+        // Filtrar por período si existe
+        if ($periodoId) {
+            $query->where(function($q) use ($periodoId) {
+                $q->where('periodo_id', $periodoId)
+                  ->orWhereNull('periodo_id');
+            });
+        }
+        
+        return $query->count();
     }
 }
