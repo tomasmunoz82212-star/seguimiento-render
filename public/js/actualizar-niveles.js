@@ -46,7 +46,42 @@ function actualizarNivelesSegundoPlano() {
 }
 
 // =============================================
-// 3. INICIAR AMBAS FUNCIONES
+// 3. ACTUALIZAR CONTADOR DE NOTIFICACIONES
+// =============================================
+function actualizarContadorNotificaciones() {
+    const badge = document.getElementById('notificacion-badge');
+    if (!badge) return;
+    
+    fetch('/api/notificaciones/contador?_=' + Date.now())
+        .then(response => response.json())
+        .then(data => {
+            const count = parseInt(data.count) || 0;
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'inline-block' : 'none';
+            console.log('[Notificaciones] Contador actualizado: ' + count);
+        })
+        .catch(error => console.error('Error actualizando contador:', error));
+}
+
+// =============================================
+// 4. DETECTAR CAMBIO DE PERÍODO
+// =============================================
+function detectarCambioPeriodo() {
+    // Escuchar cambios en el selector de período
+    const selectPeriodo = document.querySelector('select[name="periodo_id"]');
+    if (selectPeriodo) {
+        selectPeriodo.addEventListener('change', function() {
+            console.log('[Período] Cambio detectado, reiniciando contador...');
+            setTimeout(() => {
+                actualizarContadorNotificaciones();
+                actualizarNiveles();
+            }, 500);
+        });
+    }
+}
+
+// =============================================
+// 5. INICIAR TODAS LAS FUNCIONES
 // =============================================
 document.addEventListener('DOMContentLoaded', function() {
     // Actualización visual (badges) cada 30 segundos
@@ -56,4 +91,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Actualización en segundo plano cada 30 segundos
     actualizarNivelesSegundoPlano();
     setInterval(actualizarNivelesSegundoPlano, 30000);
+    
+    // Actualizar contador de notificaciones cada 10 segundos
+    actualizarContadorNotificaciones();
+    setInterval(actualizarContadorNotificaciones, 10000);
+    
+    // Detectar cambio de período
+    detectarCambioPeriodo();
 });
