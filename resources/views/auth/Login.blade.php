@@ -43,8 +43,8 @@
     </form>
 
     {{-- Enlace para recuperar contraseña --}}
-    <div class="login-forgot" style="text-align: center; margin-top: 15px;">
+    <!-- <div class="login-forgot" style="text-align: center; margin-top: 15px;">
         <a href="/recuperar-contrasena" class="btn-link">¿Olvidaste tu contraseña?</a>
-    </div>
+    </div> -->
 </div>
 @endsection
